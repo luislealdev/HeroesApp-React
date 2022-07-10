@@ -1,5 +1,5 @@
 import React from 'react'
-import { AppRouter } from './routes/AppRouter'
+import { AppRouter } from './router/AppRouter'
 
 export const HeroesApp = () => {
   return (

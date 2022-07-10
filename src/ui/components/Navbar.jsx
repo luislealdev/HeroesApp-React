@@ -23,6 +23,15 @@ export const Navbar = () => {
           >
             DC
           </NavLink>
+          <NavLink
+            className={`nav-item nav-link ${({ isActive }) => {
+              return isActive ? "active" : "";
+            }}`}
+            to="/search"
+          >
+            Search
+          </NavLink>
+          
         </div>
       </div>
       <div className="navbar-collapse collapse w-100 order-3 dual-collapse2 d-flex justify-content-end">
