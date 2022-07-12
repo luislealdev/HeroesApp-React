@@ -1,15 +1,14 @@
 import { useLocation, useNavigate } from "react-router-dom";
 import { useForm } from "../../hooks/useForm";
-import querystring from 'query-string'
+import querystring from "query-string";
 import { getHeroByName } from "../helpers";
 import { HeroCard } from "../components";
 
 export const Search = () => {
-
   const navigate = useNavigate();
   const location = useLocation();
 
-  const {q=''} = querystring.parse(location.search);
+  const { q = "" } = querystring.parse(location.search);
   const heroes = getHeroByName(q);
 
   const { searchText, onInputChange } = useForm({
@@ -18,7 +17,7 @@ export const Search = () => {
 
   const onSearchSubmit = (event) => {
     event.preventDefault();
-    if (searchText.trim() <= 1) return;
+    // if (searchText.trim() <= 1) return;
     navigate(`?q=${searchText}`);
   };
 
@@ -37,20 +36,23 @@ export const Search = () => {
             value={searchText}
             onChange={onInputChange}
           />
-          <button
-            className="btn btn-outline-primary mt-1"
-          >
-            Search
-          </button>
+          <button className="btn btn-outline-primary mt-1">Search</button>
         </form>
       </div>
       <div className="col-7">
-        <div className="alert alert-primary">Search a hero first</div>
-        <div className="alert alert-danger">
-          {" "}
-          <b>{q}</b> not found
-        </div>
-        {heroes.map(hero => <HeroCard key={hero.id} {...hero}/>)}
+        {q == "" ? (
+          <div className="alert alert-primary">Search a hero first</div>
+        ) : (
+          heroes.length==0 && (
+            <div className="alert alert-danger">
+              <b>{q}</b> not found
+            </div>
+          )
+        )}
+
+        {heroes.map((hero) => (
+          <HeroCard key={hero.id} {...hero} />
+        ))}
       </div>
     </div>
   );
