@@ -19,7 +19,7 @@ export const HeroPage = () => {
 
   return (
       <div className="img-info-card">
-        <div>
+        <div className="animate__animated animate__fadeInLeft">
           <img src={`/assets/heroes/${id}.jpg`} alt={hero.superhero} />
         </div>
 
