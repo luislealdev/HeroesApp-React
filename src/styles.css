@@ -1,0 +1,6 @@
+/* HeroPage */
+.img-info-card{
+    display: grid;
+    grid-template-columns: 40% 60%;
+    margin-top: 5vh;
+}

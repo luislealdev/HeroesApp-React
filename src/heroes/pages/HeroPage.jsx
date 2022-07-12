@@ -1,18 +1,38 @@
-import { Navigate, useParams } from "react-router-dom"
+import { Navigate, useNavigate, useParams } from "react-router-dom";
 import { getHeroById } from "../helpers";
 
 export const HeroPage = () => {
-
-  const {id, ...others} = useParams();
+  const { id, ...others } = useParams();
   const hero = getHeroById(id);
 
   if (hero === undefined) {
-    return <Navigate to="marvel"/>
-  };
+    return <Navigate to="marvel" />;
+  }
+
+  const navigate = useNavigate();
+
+  const onBack = () => {
+    navigate(-1);
+  }
 
   return (
-    <>
-        <h1>{hero.superhero}</h1>
-    </>
-  )
-}
+      <div className="img-info-card">
+        <div>
+          <img src={`/assets/heroes/${id}.jpg`} alt={hero.superhero} />
+        </div>
+
+        <div>
+          <h1>{hero.superhero}</h1>
+          <h4>{hero.publisher}</h4>
+          <hr />
+          <h4><b>Alter ego: </b> {hero.alter_ego}</h4>
+          <h4><b>Characters: </b>{hero.characters}</h4>
+          <h4><b>First appearance: </b>{hero.first_appearance}</h4>
+          <br/>
+          <button onClick={onBack} className="btn btn-outline-primary">
+            Back
+          </button>
+        </div>
+      </div>
+  );
+};
