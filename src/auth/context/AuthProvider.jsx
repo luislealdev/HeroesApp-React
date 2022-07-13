@@ -1,50 +1,58 @@
-import { useReducer } from "react"
-import { types } from "../types/types"
-import { AuthContext } from "./AuthContext"
-import { authReducer } from "./authReducer"
+import { useReducer } from "react";
+import { types } from "../types/types";
+import { AuthContext } from "./AuthContext";
+import { authReducer } from "./authReducer";
 
-export const AuthProvider = ({children}) => {
+export const AuthProvider = ({ children }) => {
+  // const initialState = {
+  //     logged: false
+  // }
 
-    // const initialState = {
-    //     logged: false
-    // }
+  const init = () => {
+    const user = JSON.parse(localStorage.getItem("user"));
 
-    const init = () => {
-      const user = JSON.parse(localStorage.getItem('user'));
+    return {
+      logged: !!user,
+      user,
+    };
+  };
 
-      return {
-        logged: !!user,
-        user
-      }
+  const [authState, dispatch] = useReducer(authReducer, {}, init);
 
-    }
+  const login = (name) => {
+    const user = {
+      id: 1,
+      name,
+    };
 
-    const [authState, dispatch] = useReducer(authReducer, {}, init)
+    const action = {
+      type: types.login,
+      payload: user,
+    };
 
-    const login = (name) => {
+    localStorage.setItem("user", JSON.stringify(user));
 
-      const user = {
-        id: 1,
-        name
-      }
+    dispatch(action);
+  };
 
-      const action = {
-        type: types.login,
-        payload: user
-      }
-
-      localStorage.setItem('user', JSON.stringify(user));
-
-      dispatch(action);
-    }
-
+  const logout = () => {
+    localStorage.removeItem("user");
+    const action = {
+      type: types.logout,
+    };
+    dispatch(action);
+  };
 
   return (
-    <AuthContext.Provider value={{
-      ...authState,
-      login
-    }}>
-        {children}
+    <AuthContext.Provider
+      value={{
+        ...authState,
+        //Methods
+        login,
+        logout
+      }}
+    >
+      {children}
     </AuthContext.Provider>
-  )
-}
+  );
+};
